@@ -35,10 +35,12 @@ const App = ({ users, addUser }) => {
         <div>
           <label htmlFor="name">Name</label>
           <input type="text" placeholder='name...' name="name" value={input.name} onChange={inputHandler}/>
+          <p>{input.name}</p>
         </div>
         <div>
           <label htmlFor="date">Date</label>
           <input type="date" id="" name="date" value={input.date} onChange={inputHandler} />
+          <p>{input.date}</p>
         </div>
         <div>
           <input type="submit" value="add user" />
