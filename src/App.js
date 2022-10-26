@@ -1,22 +1,31 @@
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { connect } from 'react-redux'
 import { addUser } from './store/action/user'
 
 const App = ({ users, addUser }) => {
 
-  const [ input, setInput ] = useState("")
+  const [ input, setInput ] = useState({
+    name: "",
+    date: ""
+  })
 
-  const inputHandler = useCallback((event) => {
-    setInput(event.target.value)
-  }, [])
+  const inputHandler = (event) => {
+    setInput({
+      ...input,
+      [event.target.name]: event.target.value
+    })
+  }
 
-  const submitAddUser = (event) => {
+  console.log(users)
+
+  const submitAddUser = useCallback((event) => {
     event.preventDefault()
     addUser({
       id: Math.floor(Math.random() * 30000),
-      name: input
+      name: input.name,
+      date: input.date
     })
-  }
+  }, [addUser, input])
 
   return (
     <div>
@@ -25,7 +34,11 @@ const App = ({ users, addUser }) => {
       <form onSubmit={submitAddUser}>
         <div>
           <label htmlFor="name">Name</label>
-          <input type="text" placeholder='name...' value={input} onChange={inputHandler}/>
+          <input type="text" placeholder='name...' name="name" value={input.name} onChange={inputHandler}/>
+        </div>
+        <div>
+          <label htmlFor="date">Date</label>
+          <input type="date" id="" name="date" value={input.date} onChange={inputHandler} />
         </div>
         <div>
           <input type="submit" value="add user" />
@@ -34,7 +47,8 @@ const App = ({ users, addUser }) => {
       <div>
         <ul>
           {users.map(user => (
-            <li key={user.id}>{user.name}</li>
+            <li key={user.id}>{user.name} - {user.date}</li>
+  
           ))}
         </ul>
       </div>
